@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "nutrisport-f3ea9",
+  "private_key_id": "f48b83da6b29f66954cd776b1152c2c630d15e23",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC8j+Xp1Ulr6CNI\nQUXtJ9+Q2OA3lpmQrR5qm55saRRTT50jz9nwQTOewS4fni1rav+sMPfFtXi55fMN\nk9DZknrczMWeUTCe6VSArQgvaN/DWCmEPGnqpFYXT6iLcjMXFdxqTfBZTc20gfU+\n5aKdicXF/nrj6QHQFdBJAkg4jggstIf0vnukQ3Hd0rGsqYevOT0lJMKvBhEIzi8E\n2RGXRYCUtl5mzJ5BkVoo5mKonPLNvIM1NW6ZzMC0LeT2rQ/sO+wQN9N5gco7RidO\nyS7HnDj0khxD53JZDt/KaGk7l6bAdZeg9weBxACuyNoRwbAqca8vAntalOxmU6oR\n38kmh+iVAgMBAAECggEABgZbBEOqWuZJ6k8bmt5BSHGFiIEpWvQNGr7qKvCYk6jh\njnlfr0uGCLaHcL8vGFWM4cWWxRxtRRNR1sc4TxtdDZ0FW2+grBMsfggJUOp669Tv\nTqhXggXKMmh7LClz9HLgXg0rds8DmZblbSMNNRdn2FGvP4T8Z9eqlgqaoCP5ouP7\nuWydJulfLIvK1iw5cmMWatE7YpF47WCK4frKD69yNq9tNdzGqAAegDY9X91CgFJi\nT3CdQQw+wwcXSZyxujIv8t4PYtC/T2tMcs9eiuudyahcZfmFzF3OaL8kfVhthZfv\nf5FrJ4VPqT3ad2a4kMC5rVqnTF2x1IGcY1acpigU6QKBgQDrOgjxKkiMAe3p5j8W\nvAgIzcLMkYN0+qF42WpUxY1nVes80Ap3AaUJfP9m7Mu1mjXUG2leC+Ihdy+dpi4S\nFfCaKCrhGky/8Ji+hp6ujJhGnG5UF+K43o6IMrJsuR6DbDrRelpN4N7VFtSFdRKE\nvzHNwMBoyx4169vxB5ZnZfI3nwKBgQDNNuC/l777oVaNV4Yd/KmmDJsmy/vygeRO\nMJt6QUZqKVIcySD1hQYr9G4/NIbdKSYGp/zhpm2znw8ccIditcj6u4yMjKtd5KSf\nida2uG27azF3sA//6RE9m27tiPZ28ry4B7Es6+b7W57J0pNMvINP8EvF55wZPC+6\nZCS1CR1DSwKBgHzKPRQ0KmicXWtJCw80kc6Z2k5MpEDa9e726MIwS+QWYMXSWLrp\n1HREK/qehTPCq+vq3utVwpGeeVRZZPeTTCF8TcM+AJmTOnVZVbWkQOS0+JMEWPNa\nnqMCwkWLr/Ro5otbLa1DLvQ9OGHUyg5CoFlXeLwfhdd1WSl1rQUNwIJhAoGAGxd/\nnEugPwARuR8w6YyNqQpJAVo0rNNRHLF2FTHA5gsGeB5lZ4RkSDFAzL9WfqQMDRzo\nWbHrEaeSCyMf/HwbSF6yM2vuw7qHsTg1THIUqoWARljMA/D1Abkfb+SBBTsOhw0c\n6t1J5S03TVWrdJn+i/MhTcNB7GLxuh22auAFKPkCgYEAlUeZTXOStQGop+KIyfhv\nr+qmwXc4d/HvFeN5Lh8OMH/CE5Y0JweDw8wIi8WVTaxDj1JajUL4SIEEMtoScnVn\n+y5fWspAmLNDVFgeT9geTichIm5Y0FmWCJCZ7He51f6k/aywSSzjvNleeDYp3stz\nDS60Wjd8zLDaOdA3V+VPCl0=\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-lpw9r@nutrisport-f3ea9.iam.gserviceaccount.com",
+  "client_id": "115053561833329596134",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-lpw9r%40nutrisport-f3ea9.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

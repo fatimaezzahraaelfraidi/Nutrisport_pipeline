@@ -1,0 +1,168 @@
+version: '3.8'
+services:
+  postgis:
+    image: mdillon/postgis
+    container_name: postgisNutriSport
+    ports:
+      - "5432:5432"
+    networks:
+      - nutriSport-network
+    environment:
+      POSTGRES_DB: nutriSportDb
+      POSTGRES_USER: nutriSport
+      POSTGRES_PASSWORD: nutriSport
+    volumes:
+      - nutriSport-db_postgis_data:/var/lib/postgresql/data
+
+  postgisOs:
+    image: mdillon/postgis
+    container_name: postgisNutriSport_ordersService
+    ports:
+      - "5433:5432"
+    networks:
+      - nutriSport-network
+    environment:
+      POSTGRES_DB: nutriSportDb_ordersService
+      POSTGRES_USER: nutriSport
+      POSTGRES_PASSWORD: nutriSport
+    volumes:
+      - nutriSport-db_postgis_data_ordersService:/var/lib/postgresql/data
+  
+  postgisUs:
+    image: mdillon/postgis
+    container_name: postgisNutriSport_userManagementService
+    ports:
+      - "5434:5432"
+    networks:
+      - nutriSport-network
+    environment:
+      POSTGRES_DB: nutriSportDb_userManagementService
+      POSTGRES_USER: nutriSport
+      POSTGRES_PASSWORD: nutriSport
+    volumes:
+      - nutriSport-db_postgis_data_userManagementService:/var/lib/postgresql/data
+    
+  zookeeper:
+    image: 'bitnami/zookeeper:latest'
+    ports:
+      - '2181:2181'
+    networks:
+      - nutriSport-network
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+
+  kafka:
+    image: 'bitnami/kafka:latest'
+    container_name: 'kafka'
+    ports:
+      - '9092:9092'
+    networks:
+      - nutriSport-network
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_LISTENERS=PLAINTEXT://:9092
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+    depends_on:
+      - zookeeper
+
+  discovery-service:
+    build:
+      context: .\discovery-service
+      dockerfile: Dockerfile
+    image: discovery-service
+    container_name: discovery-service
+    ports:
+      - "8761:8761"
+    networks:
+      - nutriSport-network
+
+  user-management-service:
+    build:
+      context: .\user-management-service
+      dockerfile: Dockerfile
+    image: user-management-service
+    container_name: user-management-services
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgisUs:5432/nutriSportDb_userManagementService
+      SPRING_DATASOURCE_USERNAME: nutriSport
+      SPRING_DATASOURCE_PASSWORD: nutriSport
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      IP_ADDRESS: 192.168.0.156
+    networks:
+      - nutriSport-network
+  
+  offers-and-requests-management-service:
+    build:
+      context: .\offers-and-requests-management-service
+      dockerfile: Dockerfile
+    image: offers-and-requests-management-service
+    container_name: offers-and-requests-management-service
+    depends_on:
+     - postgis
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgis:5432/nutriSportDb
+      SPRING_DATASOURCE_USERNAME: nutriSport
+      SPRING_DATASOURCE_PASSWORD: nutriSport
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      KAFKA_BROKER: kafka:9092
+      IP_ADDRESS: 192.168.0.156
+      PORT: 3100
+    networks:
+      - nutriSport-network
+
+  orders-management-service:
+    build:
+      context: .\orders-management-service
+      dockerfile: Dockerfile
+    image: orders-management-service
+    container_name: orders-management-service
+    depends_on:
+     - postgisOs
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgisOs:5432/nutriSportDb_ordersService
+      SPRING_DATASOURCE_USERNAME: nutriSport
+      SPRING_DATASOURCE_PASSWORD: nutriSport
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      PORT: 3200
+      KAFKA_BROKER: kafka:9092
+      IP_ADDRESS: 192.168.0.156
+    networks:
+      - nutriSport-network
+
+  payment-service:
+    build:
+      context: .\payment-service
+      dockerfile: Dockerfile
+    image: payment-service
+    container_name: payment-service
+    environment:
+      PORT: 3400
+      IP_ADDRESS: 192.168.0.156
+    networks:
+      - nutriSport-network
+
+  api-gateway-service:
+    build:
+      context: .\api-gateway-service
+      dockerfile: Dockerfile
+    image: api-gateway-service
+    container_name: api-gateway-service
+    environment:
+      IP_ADDRESS: 192.168.0.156
+    ports:
+      - "8888:8888"
+    networks:
+      - nutriSport-network
+    links:
+      - discovery-service
+
+volumes:
+  nutriSport-db_postgis_data:
+  nutriSport-db_postgis_data_ordersService:
+  nutriSport-db_postgis_data_userManagementService:
+
+networks:
+  nutriSport-network:
+    driver: bridge

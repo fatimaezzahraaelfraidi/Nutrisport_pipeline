@@ -1,0 +1,6 @@
+projectKey=nutrisportO-RMS
+serverUrl=http://localhost:9000
+serverVersion=10.3.0.82913
+dashboardUrl=http://localhost:9000/dashboard?id=nutrisportO-RMS
+ceTaskId=AYyTCDvkKvNu5-rj4YOU
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AYyTCDvkKvNu5-rj4YOU

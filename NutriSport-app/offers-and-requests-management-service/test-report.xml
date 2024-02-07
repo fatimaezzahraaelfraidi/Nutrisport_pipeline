@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testExecutions version="1">
+  <file path="C:\Users\dell\Desktop\NutriSport\NutriSport-app\offers-and-requests-management-service\src\tests\Demand.test.ts">
+    <testCase name="save demand  should save a demand and return the saved demand" duration="17"/>
+    <testCase name="save demand  should throw an error if sportif session is not found" duration="9"/>
+    <testCase name="get Demands By Sportif Id  should get demands by sportif ID" duration="3"/>
+    <testCase name="get Demands By Sportif Id  should throw an error if sportif session is not found" duration="2"/>
+  </file>
+  <file path="C:\Users\dell\Desktop\NutriSport\NutriSport-app\offers-and-requests-management-service\src\tests\offer.test.ts">
+    <testCase name="save offer  should save an offer and return the saved offer " duration="19"/>
+    <testCase name="get Offers By Preparator Id should get offers by preparator ID" duration="3"/>
+    <testCase name="get Offers By Preparator Id should throw an error if preparator session is not found" duration="15"/>
+  </file>
+  <file path="C:\Users\dell\Desktop\NutriSport\NutriSport-app\offers-and-requests-management-service\src\tests\SportifSession.test.ts">
+    <testCase name="get nearby offers  should get nearby offers based on sportif session" duration="21"/>
+    <testCase name="get nearby offers  should throw an error if sportif session is not found" duration="11"/>
+    <testCase name="get nearby offers  should throw an error if currentPosition format is invalid" duration="2"/>
+  </file>
+</testExecutions>

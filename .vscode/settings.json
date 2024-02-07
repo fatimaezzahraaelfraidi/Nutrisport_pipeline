@@ -1,0 +1,8 @@
+{
+    "jest.rootPath": "C:\\Users\\dell\\Desktop\\NutriSport\\NutriSport-app\\offers-and-requests-management-service",
+    "jest.jestCommandLine": "jest",
+    "sonarlint.connectedMode.project": {
+        "connectionId": "sonarqubeAdmin",
+        "projectKey": "nutrisportO-RMS"
+    }
+}

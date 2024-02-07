@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "812197542707",
+    "project_id": "nutrisport-f3ea9",
+    "storage_bucket": "nutrisport-f3ea9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:812197542707:android:36e3fc4210fe6d9d7a1c46",
+        "android_client_info": {
+          "package_name": "com.nutrisport"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDIGTD49GEgMvz4Czl_2g3IWoDENl2ARc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
