@@ -8,7 +8,7 @@ import { Devis } from "./entity/Devis"
 
 export const AppDataSource = new DataSource({
     type: "postgres",
-    host: "postgis",
+    host: process.env.hostIp,
     port: 5432,
     username: "nutriSport",
     password: process.env.SPRING_DATASOURCE_PASSWORD,

@@ -535,7 +535,7 @@ export class Controller{
             await this.producer.disconnect();
 
             // Configure the options for the HTTP request
-            const axiosResponse = axios.post(`http://localhost:3200/api/orders-management/orderDevis/${demand.sportifSession.idSportif}/${devisId}/${method}`, {});
+            const axiosResponse = axios.post(`http://${process.env.gatewayIp}:8888/api/orders-management/orderDevis/${demand.sportifSession.idSportif}/${devisId}/${method}`, {});
             // Log the axios response
             console.log("rep\n"+JSON.stringify(axiosResponse));
 

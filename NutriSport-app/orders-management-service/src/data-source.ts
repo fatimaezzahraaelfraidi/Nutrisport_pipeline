@@ -8,8 +8,8 @@ import { PreparatorSession } from "./entity/PreparatorSession"
 
 export const AppDataSource = new DataSource({
     type: "postgres",
-    host: "postgisOs",
-    port: 5432,
+    host: process.env.hostIp,
+    port: 5433,
     username: "nutriSport",
     password: process.env.SPRING_DATASOURCE_PASSWORD,
     database: "nutriSportDb_ordersService",

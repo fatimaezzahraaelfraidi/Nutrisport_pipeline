@@ -1,8 +1,8 @@
 import { Eureka } from 'eureka-js-client';
-const eurekaHost = (process.env.EUREKA_CLIENT_SERVICEURL_DEFAULTZONE || process.env.IP_ADDRESS);
+const eurekaHost = (process.env.EUREKA_CLIENT_SERVICEURL_DEFAULTZONE || process.env.eurekaIp);
 const eurekaPort = 8761;
-const hostName = (process.env.HOSTNAME || process.env.IP_ADDRESS)
-const ipAddr = process.env.IP_ADDRESS;
+const hostName = (process.env.HOSTNAME || process.env.eurekaIp)
+const ipAddr = process.env.eurekaIp;
 
 export function registerWithEureka(appName: string, PORT: number | string) {
     const client = new Eureka({
