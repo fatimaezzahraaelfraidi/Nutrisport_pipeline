@@ -4,8 +4,8 @@ import io from 'socket.io-client';
 import config from './../pages/config';
 // const socket = io('http://192.168.43.78:3200');
 // const socketService2 = io('http://192.168.43.78:3100');
-const socket = io(`${config.API_BASE_URL}:${config.PORT2}`);
-const socketService2 = io(`${config.API_BASE_URL}:${config.PORT1}`);
+const socket = io(`${config.API_BASE_URL}:${config.PORT}`);
+const socketService2 = io(`${config.API_BASE_URL}:${config.PORT}`);
 
 
 export const connectSocket = () => {
@@ -25,7 +25,7 @@ export const unsubscribeFromOrderStatusChanged = () => {
 };
 
 // const socket1 = io('http://192.168.43.78:3100');
-const socket1 = io(`${config.API_BASE_URL}:${config.PORT1}`);
+const socket1 = io(`${config.API_BASE_URL}:${config.PORT}`);
 
 
 export const connectSocket1 = () => {

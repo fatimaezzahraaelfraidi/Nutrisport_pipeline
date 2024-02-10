@@ -11,7 +11,6 @@ import { DevisDto } from "../dto/DevisDto"
 import { Kafka, logLevel } from "kafkajs"
 import { OfferDto } from "../dto/OfferDto"
 import * as admin from "firebase-admin"; 
-import { FindOperator, Point } from 'typeorm';
 
 export class Controller{
     // Data repositories
@@ -167,7 +166,6 @@ export class Controller{
             .where('preparatorSession.idPreparator = :preparatorId', { preparatorId })
             .getMany();
 
-        //const offers = preparatorSession.offers;
         return offers;
     }
     
@@ -537,9 +535,9 @@ export class Controller{
             await this.producer.disconnect();
 
             // Configure the options for the HTTP request
-            const axiosResponse = axios.post(`http://${process.env.IP_ADDRESS}:8888/api/orders-management/orderDevis/${demand.sportifSession.idSportif}/${devisId}/${method}`, {});
+            const axiosResponse = axios.post(`http://localhost:3200/api/orders-management/orderDevis/${demand.sportifSession.idSportif}/${devisId}/${method}`, {});
             // Log the axios response
-            console.log("rep\n"+axiosResponse);
+            console.log("rep\n"+JSON.stringify(axiosResponse));
 
             // Return a simplified response to the client
             response.json({ success: true });
@@ -707,17 +705,17 @@ export class Controller{
         const preparatorSession = await this.preparatorSessionRepository.findOne({
             where: { idSession : preparatorSessionId  },
         });
+        // Check the existance of the preparator Session
+        if (!preparatorSession ) {
+            throw Error('Preparator not found');
+        }
 
         const preparatorId = preparatorSession.idPreparator;
         // Check the existance of the demand
         if (!demand ) {
             throw Error('Demand not found');
         }
-        // Check the existance of the preparator Session
-        if (!preparatorSession ) {
-            throw Error('Preparator not found');
-        }
-
+       
         const devis = await this.devisRepository
         .createQueryBuilder("devis")
         .innerJoin("devis.preparatorSession", "preparatorSession")
@@ -727,8 +725,9 @@ export class Controller{
         .andWhere("devis.status = :status", { status: DevisStatus.PENDING })
         .getMany();
 
-        return devis;
-    }
+        return devis;
+    }
+
     async getDemandOfDevis(request: Request) {
         // Extract demandId from params
         const devisId = parseInt(request.params.devisId);
@@ -754,9 +753,3 @@ export class Controller{
     }
 
 }
-
-
-function relation(arg0: string) {
-    throw new Error("Function not implemented.")
-}
-

@@ -1,16 +1,13 @@
 import { AppDataSource } from "../data-source"
-import { NextFunction, Request, Response } from "express"
+import { Request, Response } from "express"
 import { Order } from "../entity/Order"
 import { SportifSession } from "../entity/SportifSession"
 import { Offer } from "../entity/Offer"
 import { Devis } from "../entity/Devis"
 import { OrderStatus } from "../enum/EnumOrderStatus"
-import { diffieHellman } from "crypto"
 import { Kafka, logLevel } from "kafkajs"
 import { PreparatorSession } from "../entity/PreparatorSession"
 import { PreparatorSessionDto } from "../dto/PreparatorSessionDto"
-import axios from "axios"
-import { Server } from 'socket.io';
 
 import * as admin from "firebase-admin"; 
 
@@ -83,7 +80,6 @@ export class Controller{
             where: { idPreparator : offer.preparatorSession.idPreparator},
         });
 
-        //const preparatorSession = offer.preparatorSession;
         let fcmMessage = {
             token : preparatorSession.fcmToken,
             notification: {
@@ -313,15 +309,15 @@ export class Controller{
         switch (status.toLowerCase()) {
             case 'preparation':
                 order.orderStatus = OrderStatus.PREPARATION;
-                msg+"is on preparation."
+                msg+="is on preparation."
                 break;
             case 'delivery':
                 order.orderStatus = OrderStatus.DELIVERY;
-                msg+"is on its way."
+                msg+="is on its way."
                 break;
             case 'delivered':
                 order.orderStatus = OrderStatus.DELIVERED;
-                msg+"has been delivred."
+                msg+="has been delivred."
                 break;
             case 'closed':
                 order.orderStatus = OrderStatus.CLOSED;
@@ -411,8 +407,8 @@ export class Controller{
         console.log(sportifSession);
         // Check the existence of the SportifSession
         if (!sportifSession) {
-            console.log("WHY M BEING CALLED");
-           // throw Error('Sportif not found');
+            //console.log("WHY M BEING CALLED");
+           throw Error('Sportif not found');
         }
     
         //extract the current position of the sportif

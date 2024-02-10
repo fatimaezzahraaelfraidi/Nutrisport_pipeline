@@ -6,17 +6,9 @@ import { port } from "./config"
 import { Routes } from "./routes"
 
 import morgan = require("morgan")
-import { SportifSession } from "./entity/SportifSession"
-import { Offer } from "./entity/Offer"
-import { Devis } from "./entity/Devis"
 import { createServer } from "http";
-import { Server, Socket } from "socket.io";
+import { Server } from "socket.io";
 import { startKafkaConsumer } from "../src/config/KafkaMiddleware";
-
-import { PreparatorSession } from "./entity/PreparatorSession"
-
-import { Order } from "./entity/Order"
-
 import eurekaHelper = require('./eureka-helper')
 
  

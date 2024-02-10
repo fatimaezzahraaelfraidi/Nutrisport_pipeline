@@ -1,7 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne, Column, CreateDateColumn, UpdateDateColumn, Double, OneToOne, JoinColumn, PrimaryColumn } from 'typeorm';
+import { Entity, ManyToOne, Column, Double, OneToOne, JoinColumn, PrimaryColumn } from 'typeorm';
 import { Order } from './Order';
 import { PreparatorSession } from './PreparatorSession';
-import { SportifSession } from './SportifSession';
 
 @Entity('devis')
 export class Devis {

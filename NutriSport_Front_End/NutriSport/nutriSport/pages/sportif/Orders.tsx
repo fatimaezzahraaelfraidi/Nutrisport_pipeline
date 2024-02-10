@@ -12,6 +12,7 @@ import {
   subscribeToOrderStatusChanged,
   unsubscribeFromOrderStatusChanged,
 } from '../../services/socketService';
+import { useFocusEffect } from '@react-navigation/native';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight= Dimensions.get('window').height;
@@ -58,7 +59,24 @@ const OrdersPage  = ({ navigation }: { navigation: any }) => {
       unsubscribeFromOrderStatusChanged();
     };
   }, []); 
+  // useFocusEffect to refetch orders when component regains focus
+  useFocusEffect(
+    React.useCallback(() => {
+      const refreshOrders = async () => {
+        try {
+          const data = await fetchOrders();
+          setOrders(data);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      };
+      refreshOrders();
 
+      return () => {
+        // Cleanup function if needed
+      };
+    }, [])
+  );
   // Function to map status to color
   const getStatusColor = (status: string) => {
     switch (status) {

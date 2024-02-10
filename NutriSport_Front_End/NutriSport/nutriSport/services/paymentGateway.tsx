@@ -7,7 +7,7 @@ import config from './../pages/config';
 
 export const createPaymentIntent = async (data: any) => {
   try {
-    const response = await fetch(`${config.API_BASE_URL}:${config.PORT4}/payments/intents`, {
+    const response = await fetch(`${config.API_BASE_URL}:${config.PORT}/payments/intents`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

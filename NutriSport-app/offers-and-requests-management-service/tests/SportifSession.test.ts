@@ -129,12 +129,15 @@ describe('get nearby offers ', () => {
             },
             "isActive": true
         };  
-        mockRequest.params = { sportifIdSession };
+        mockRequest.params = { sportifIdSession: String(sportifIdSession) };
+
+    
 
          //mock repositories
         let sSessionRep=sportifSessionRepository.findOne=jest.fn().mockResolvedValue(sportifSession);
         let oRepCreateQuery=offerRepository.createQueryBuilder=jest.fn().mockReturnValue({
             leftJoinAndSelect: jest.fn().mockReturnThis(),
+        andWhere: jest.fn().mockReturnThis(),    
         where: jest.fn().mockReturnThis(),
         getMany: jest.fn().mockResolvedValue(nearbyOffers), });
         // Act
@@ -150,8 +153,8 @@ describe('get nearby offers ', () => {
 
     it('should throw an error if sportif session is not found', async () => {
         // Arrange
+        mockRequest.params = { sportifIdSession: String(sportifIdSession) };
 
-        mockRequest.params = { sportifIdSession };
 
         sportifSessionRepository.findOne=jest.fn().mockResolvedValue(null);
 
@@ -176,8 +179,8 @@ describe('get nearby offers ', () => {
             },
             "isActive": true
         };
-
-        mockRequest.params = { sportifIdSession };
+        mockRequest.params = { sportifIdSession: String(sportifIdSession) };
+ 
 
         sportifSessionRepository.findOne=jest.fn().mockResolvedValue(sportifSession);
 

@@ -11,7 +11,7 @@ export const AppDataSource = new DataSource({
     host: "postgisOs",
     port: 5432,
     username: "nutriSport",
-    password: "nutriSport",
+    password: process.env.SPRING_DATASOURCE_PASSWORD,
     database: "nutriSportDb_ordersService",
     synchronize: true,
     logging: false,

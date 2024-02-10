@@ -83,7 +83,7 @@ class UserManagementControllerTest {
         assertEquals("Logout successful", response.getBody());
         verify(sessionService, times(1)).save(session);
 
-     }
+    }
 
     @Test
     void logout_InvalidToken_ReturnUnauthorizedResponse() throws JsonProcessingException {
@@ -94,7 +94,7 @@ class UserManagementControllerTest {
         assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
         assertEquals("Invalid session", response.getBody());
         verify(sessionService, never()).save(any(Session.class));
-     }
+    }
     @Test
     void signup_ValidRequest_ReturnJwtAuthenticationResponse() throws AccountException {
         JwtAuthenticationResponse expectedResponse = new JwtAuthenticationResponse("token");
@@ -210,8 +210,8 @@ class UserManagementControllerTest {
         String token = "valid_token";
         String latStr = "10.12345";
         String lonStr = "20.67890";
-       ArrayList<String>   auth = new ArrayList<>();
-       auth.add("ROLE_CHEF");
+        ArrayList<String>   auth = new ArrayList<>();
+        auth.add("ROLE_CHEF");
 
         Session session = new Session();
         session.setAccount(new Account()); // Ensure account is not null

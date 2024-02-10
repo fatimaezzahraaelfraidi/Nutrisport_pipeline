@@ -45,17 +45,17 @@ class AuthenticationServiceTest {
     @Mock
     private  PageEventProducer pageEventProducer;
 
-@BeforeEach
-void setUp(){
+    @BeforeEach
+    void setUp(){
 
-    authenticationService=new AuthenticationService(accountRepository,accountService,passwordEncoder,jwtService,authenticationManager,sessionService,chefService,sportifService);
-    accountService=new AccountService(accountRepository);
-    sportifService=new SportifService(sportifRepository,userRepository);
-    chefService=new ChefService(userRepository,chefRepository);
-    sessionService=new SessionService(sessionRepository,pageEventProducer);
-    jwtService=new JwtService();
+        authenticationService=new AuthenticationService(accountRepository,accountService,passwordEncoder,jwtService,authenticationManager,sessionService,chefService,sportifService);
+        accountService=new AccountService(accountRepository);
+        sportifService=new SportifService(sportifRepository,userRepository);
+        chefService=new ChefService(userRepository,chefRepository);
+        sessionService=new SessionService(sessionRepository,pageEventProducer);
+        jwtService=new JwtService();
 
-}
+    }
     @Test
     public void testSignupChef() throws AccountException {
         // Mocking signup request

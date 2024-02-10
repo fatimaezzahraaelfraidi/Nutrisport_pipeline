@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testExecutions version="1">
+  <file path="C:\Users\dell\Desktop\Nutrisport_pipeline\NutriSport-app\payment-service\tests\pay.test.ts">
+    <testCase name="PaymentController should create a payment intent" duration="7"/>
+    <testCase name="PaymentController should handle errors" duration="6"/>
+  </file>
+</testExecutions>

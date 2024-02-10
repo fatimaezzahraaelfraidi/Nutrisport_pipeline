@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, Geometry, PrimaryColumn } from 'typeorm';
+import { Entity, Column, OneToMany, Geometry, PrimaryColumn } from 'typeorm';
 import { Demand } from './Demand';
 
 @Entity('sportif_sessions')
@@ -13,10 +13,10 @@ export class SprotifSession  {
   currentPosition: Geometry;
 
   @Column({nullable:true})
-  name: String
+  name: string
 
   @Column({nullable:true})
-  phone: String
+  phone: string
   
   @Column({ default: false })
   isActive: boolean;

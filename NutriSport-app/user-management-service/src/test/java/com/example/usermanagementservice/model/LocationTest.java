@@ -30,7 +30,7 @@ class LocationTest {
         // Get the Geometry object using the getter
         Geometry retrievedGeometry = locationToSave.getLocationGeometry();
 
-    ;
+        ;
     }
     @Test
     void testIdGetter() {

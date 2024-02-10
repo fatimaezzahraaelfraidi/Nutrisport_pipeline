@@ -3,16 +3,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // const API_BASE_URL = 'http://192.168.43.78';
 
-// const PORT1 = '3100';
-// const PORT2 = '3200';
-// const PORT3 = '3300';
+// const PORT = '3100';
+// const PORT = '3200';
+// const PORT = '3300';
 import config from './../pages/config';
 
 export const fetchOffres = async () => {
   console.log('fetch offers');
   const sessionId = await AsyncStorage.getItem('sessionId');
   try {
-    const response = await fetch(`${config.API_BASE_URL}:${config.PORT1}/api/offers-and-requests-management/ssessions/${sessionId}`);
+    const response = await fetch(`${config.API_BASE_URL}:${config.PORT}/api/offers-and-requests-management/ssessions/${sessionId}`);
     
     const data = await response.json();
     return data;
@@ -26,7 +26,7 @@ export const saveOffre = async (data) => {
   const sessionId = await AsyncStorage.getItem('sessionId');
   try {
 
-    const response = await fetch(`${config.API_BASE_URL}:${config.PORT1}/api/offers-and-requests-management/offers/${sessionId}`, {
+    const response = await fetch(`${config.API_BASE_URL}:${config.PORT}/api/offers-and-requests-management/offers/${sessionId}`, {
  
       method: 'POST',
       headers: {
@@ -50,7 +50,7 @@ export const saveDemande = async (data) => {
   const sessionId = await AsyncStorage.getItem('sessionId');
   try {
 
-    const response = await fetch(`${config.API_BASE_URL}:${config.PORT1}/api/offers-and-requests-management/demands/${sessionId}`, {
+    const response = await fetch(`${config.API_BASE_URL}:${config.PORT}/api/offers-and-requests-management/demands/${sessionId}`, {
 
       method: 'POST',
       headers: {
@@ -70,7 +70,7 @@ export const saveDemande = async (data) => {
 };
 export const nearbyDemands=async ()=>{  try {
   const sessionId = await AsyncStorage.getItem('sessionId');
-  const response = await fetch(`${config.API_BASE_URL}:${config.PORT1}/api/offers-and-requests-management/psessions/${sessionId}/100000000`);
+  const response = await fetch(`${config.API_BASE_URL}:${config.PORT}/api/offers-and-requests-management/psessions/${sessionId}/100000000`);
   console.log(response);
   const data = await response.json();
   return data;
@@ -85,7 +85,7 @@ export const fetchOrders = async () => {
   const sessionId = await AsyncStorage.getItem('sessionId');
 
   try {
-    const response = await fetch(`${config.API_BASE_URL}:${config.PORT2}/api/orders-management/orders/${sessionId}`);
+    const response = await fetch(`${config.API_BASE_URL}:${config.PORT}/api/orders-management/orders/${sessionId}`);
     const data = await response.json();
     return data;
   } catch (error) {
@@ -99,7 +99,7 @@ export const fetchDemands = async () => {
   const sessionId = await AsyncStorage.getItem('sessionId');
 
   try {
-    const response = await fetch(`${config.API_BASE_URL}:${config.PORT1}/api/offers-and-requests-management/demands/${sessionId}`);
+    const response = await fetch(`${config.API_BASE_URL}:${config.PORT}/api/offers-and-requests-management/demands/${sessionId}`);
     const data = await response.json();
     return data;
   } catch (error) {
@@ -110,7 +110,7 @@ export const fetchDemands = async () => {
 export const fetchDevisOfDemand = async (demandId) => {
   console.log('fetch devis of demand '+demandId);
   try {
-    const response = await fetch(`${config.API_BASE_URL}:${config.PORT1}/api/offers-and-requests-management/devis/demand/${demandId}`);
+    const response = await fetch(`${config.API_BASE_URL}:${config.PORT}/api/offers-and-requests-management/devis/demand/${demandId}`);
     const data = await response.json();
     return data;
   } catch (error) {
@@ -121,7 +121,7 @@ export const fetchDevisOfDemand = async (demandId) => {
 export const AcceptDevis = async (devisId, method) => {
   console.log('Accept devis number ' + devisId);
   try {
-    const response = await fetch(`${config.API_BASE_URL}:${config.PORT1}/api/offers-and-requests-management/devis/${devisId}/${method}`, {
+    const response = await fetch(`${config.API_BASE_URL}:${config.PORT}/api/offers-and-requests-management/devis/${devisId}/${method}`, {
       method: 'PATCH', // Use PATCH method for accepting devis
       headers: {
         'Content-Type': 'application/json',
@@ -139,7 +139,7 @@ export const fetchOffers = async () => {
   console.log('fetch offers for preparator');
   const sessionId = await AsyncStorage.getItem('sessionId');
   try {
-    const response = await fetch(`${config.API_BASE_URL}:${config.PORT1}/api/offers-and-requests-management/offers/${sessionId}`);
+    const response = await fetch(`${config.API_BASE_URL}:${config.PORT}/api/offers-and-requests-management/offers/${sessionId}`);
     const data = await response.json();
     return data;
   } catch (error) {
@@ -151,7 +151,7 @@ export const proposeDevisS= async (demandId,proposedPrice) => {
   console.log('propose devis');
   const sessionId = await AsyncStorage.getItem('sessionId');
   try {
-    const response = await fetch(`${config.API_BASE_URL}:${config.PORT1}/api/offers-and-requests-management/devis/${sessionId}/${demandId}`, {
+    const response = await fetch(`${config.API_BASE_URL}:${config.PORT}/api/offers-and-requests-management/devis/${sessionId}/${demandId}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -168,7 +168,7 @@ export const proposeDevisS= async (demandId,proposedPrice) => {
 };
 export const saveOrder = async (offerId, method) => {
   const sessionId = await AsyncStorage.getItem('sessionId');
-  const url = `${config.API_BASE_URL}:${config.PORT2}/api/orders-management/orderOffer/${sessionId}/${offerId}/${method}`;
+  const url = `${config.API_BASE_URL}:${config.PORT}/api/orders-management/orderOffer/${sessionId}/${offerId}/${method}`;
   console.log(offerId);
   try {
     const response = await fetch(url, {
@@ -192,7 +192,7 @@ export const saveOrder = async (offerId, method) => {
   }
 };
 export const setOrderStatus = async (orderId, status) => {
-  const url = `${config.API_BASE_URL}:${config.PORT2}/api/orders-management/orders/${orderId}/${status}`;
+  const url = `${config.API_BASE_URL}:${config.PORT}/api/orders-management/orders/${orderId}/${status}`;
 
   try {
     const response = await fetch(url, {
@@ -216,7 +216,7 @@ export const setOrderStatus = async (orderId, status) => {
   }
 };
 export const setRankPreparator = async (rank, orderId) => {
-  const url = `${config.API_BASE_URL}:${config.PORT2}/api/orders-management/preparators/${orderId}/${rank}`;
+  const url = `${config.API_BASE_URL}:${config.PORT}/api/orders-management/preparators/${orderId}/${rank}`;
   try {
     const response = await fetch(url, {
       method: 'post',
@@ -240,7 +240,7 @@ export const setRankPreparator = async (rank, orderId) => {
 };
 export const signIn = async (data) => {
 
-  const url = `${config.API_BASE_URL}:${config.PORT3}/api/user-management/signin`;
+  const url = `${config.API_BASE_URL}:${config.PORT}/api/user-management/signin`;
 
   try {
     const response = await fetch(url, {
@@ -275,7 +275,7 @@ export const signIn = async (data) => {
    
 };
 export const signup = async (data) => {
-  const url = `${config.API_BASE_URL}:${config.PORT3}/api/user-management/signup`;
+  const url = `${config.API_BASE_URL}:${config.PORT}/api/user-management/signup`;
 
   try {
     const response = await fetch(url, {
@@ -303,7 +303,7 @@ export const CountOrderedOffers = async () => {
   const sessionId = await AsyncStorage.getItem('sessionId');
   console.log('count orders of offers');
   try {
-    const response = await fetch(`${config.API_BASE_URL}:${config.PORT2}/api/orders-management/countOrders/${sessionId}`);
+    const response = await fetch(`${config.API_BASE_URL}:${config.PORT}/api/orders-management/countOrders/${sessionId}`);
 
     const data = await response.json();
     console.log(data);
@@ -317,7 +317,7 @@ export const fetchOrdersOfPreparator = async () => {
   const sessionId = await AsyncStorage.getItem('sessionId');
   console.log('fetch orders of preparator');
   try {
-    const response = await fetch(`${config.API_BASE_URL}:${config.PORT2}/api/orders-management/orders/preparatorOrders/${sessionId}`);
+    const response = await fetch(`${config.API_BASE_URL}:${config.PORT}/api/orders-management/orders/preparatorOrders/${sessionId}`);
     const data = await response.json();
     console.log(data);
     return data;
@@ -327,7 +327,7 @@ export const fetchOrdersOfPreparator = async () => {
   }
 };
 export const setPaymentStatus = async (orderId) => {
-  const url = `${config.API_BASE_URL}:${config.PORT2}/api/orders-management/statusPayment/${orderId}`;
+  const url = `${config.API_BASE_URL}:${config.PORT}/api/orders-management/statusPayment/${orderId}`;
 
   try {
     const response = await fetch(url, {
@@ -354,7 +354,7 @@ export const fetchMyDevisOfDemand = async (demandId) => {
   const sessionId = await AsyncStorage.getItem('sessionId');
   console.log('fetch devis of demand');
   try {
-    const response = await fetch(`${config.API_BASE_URL}:${config.PORT1}/api/offers-and-requests-management/allDevis/${demandId}/${sessionId}`);
+    const response = await fetch(`${config.API_BASE_URL}:${config.PORT}/api/offers-and-requests-management/allDevis/${demandId}/${sessionId}`);
     const data = await response.json();
     console.log(data);
     return data;
@@ -367,7 +367,7 @@ export const signOut = async () => {
   const token = await AsyncStorage.getItem('token');
 
   try {
-    const response = await fetch(`${config.API_BASE_URL}:${config.PORT3}/api/user-management/logout`, {
+    const response = await fetch(`${config.API_BASE_URL}:${config.PORT}/api/user-management/logout`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -395,7 +395,7 @@ export const getOrderByIdOrder = async (orderId) => {
   console.log('GET order by Id fettch order');
   
   try {
-    const response = await fetch(`${config.API_BASE_URL}:${config.PORT2}/api/orders-management/${orderId}`);
+    const response = await fetch(`${config.API_BASE_URL}:${config.PORT}/api/orders-management/${orderId}`);
     const data = await response.json();
     console.log(data)
     return data;
@@ -408,7 +408,7 @@ export const getDevisById = async (devisId) => {
   console.log('GET devis by Id');
   
   try {
-    const response = await fetch(`${config.API_BASE_URL}:${config.PORT1}/api/offers-and-requests-management/devis/${devisId}`);
+    const response = await fetch(`${config.API_BASE_URL}:${config.PORT}/api/offers-and-requests-management/devis/${devisId}`);
     const data = await response.json();
     return data;
   } catch (error) {
@@ -420,7 +420,7 @@ export const getOfferById = async (offerId) => {
   console.log('GET offer by Id');
   
   try {
-    const response = await fetch(`${config.API_BASE_URL}:${config.PORT1}/api/offers-and-requests-management/offers/id/${offerId}`);
+    const response = await fetch(`${config.API_BASE_URL}:${config.PORT}/api/offers-and-requests-management/offers/id/${offerId}`);
     const data = await response.json();
     console.log(data)
     return data;
@@ -433,7 +433,7 @@ export const saveLocation = async (lat, lon) => {
   const token = await AsyncStorage.getItem('token');
 
   try {
-    const response = await fetch(`${config.API_BASE_URL}:${config.PORT3}/api/user-management/saveLocationSession/${lat},${lon}`, {
+    const response = await fetch(`${config.API_BASE_URL}:${config.PORT}/api/user-management/saveLocationSession/${lat},${lon}`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -455,7 +455,7 @@ export const saveLocation = async (lat, lon) => {
 }
 
 export const updateAvailability = async (offerId, availability) => {
-  const url = `${config.API_BASE_URL}:${config.PORT1}/api/offers-and-requests-management/offer/${offerId}/${availability}`;
+  const url = `${config.API_BASE_URL}:${config.PORT}/api/offers-and-requests-management/offer/${offerId}/${availability}`;
   try {
     const response = await fetch(url, {
       method: 'patch',
@@ -485,7 +485,7 @@ export const fetchDemandsHistory = async () => {
   const sessionId = await AsyncStorage.getItem('sessionId');
 
   try {
-    const response = await fetch(`${config.API_BASE_URL}:${config.PORT1}/api/offers-and-requests-management/demands/${sessionId}`);
+    const response = await fetch(`${config.API_BASE_URL}:${config.PORT}/api/offers-and-requests-management/demands/${sessionId}`);
     const data = await response.json();
 
     // Iterate through each demand
@@ -527,7 +527,7 @@ export const fetchDemandsHistory = async () => {
 export const getDemandOfDevis = async (devisId) => {
   console.log('fetch demand of devis');
   try {
-    const response = await fetch(`${API_BASE_URL}:${PORT1}/api/offers-and-requests-management/demandOfDevis/${devisId}`);
+    const response = await fetch(`${API_BASE_URL}:${PORT}/api/offers-and-requests-management/demandOfDevis/${devisId}`);
     const data = await response.json();
     return data;
   } catch (error) {

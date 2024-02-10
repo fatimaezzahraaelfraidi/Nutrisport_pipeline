@@ -49,7 +49,7 @@ class DataSeederTest {
 
         dataSeeder.run();
 
-       verify(locationRepository).count();
+        verify(locationRepository).count();
         verifyNoInteractions(chefService, sportifService, accountRepository, passwordEncoder);
     }
 

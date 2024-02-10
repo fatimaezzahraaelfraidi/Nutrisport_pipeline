@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">25% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>4/16</span>
+                <span class='fraction'>16/16</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/2</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">20% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>3/15</span>
+                <span class='fraction'>15/15</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -105,7 +105,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -124,22 +124,22 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, Geometry, OneToOne, JoinColumn, PrimaryColumn } from 'typeorm';
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {  Geometry } from 'typeorm';
 import { Offer } from '../entity/Offer';
 &nbsp;
 &nbsp;
@@ -162,19 +162,19 @@ export class OfferDto {
   geographicalArea: Geometry;
   idPreparatorSession : number;
 &nbsp;
-<span class="fstat-no" title="function not covered" >  static t</span>oDto(offer: Offer): OfferDto {
-    const offerDto: OfferDto = <span class="cstat-no" title="statement not covered" >new OfferDto();</span>
-<span class="cstat-no" title="statement not covered" >    offerDto.idOffer=offer.idOffer;</span>
-<span class="cstat-no" title="statement not covered" >    offerDto.title=offer.title;</span>
-<span class="cstat-no" title="statement not covered" >    offerDto.price=offer.price;</span>
-<span class="cstat-no" title="statement not covered" >    offerDto.preparation_time=offer.preparation_time;</span>
-<span class="cstat-no" title="statement not covered" >    offerDto.isAvailable=offer.isDeliverable;</span>
-<span class="cstat-no" title="statement not covered" >    offerDto.isAvailable=offer.isAvailable;</span>
-<span class="cstat-no" title="statement not covered" >    offerDto.createdAt=offer.createdAt;</span>
-<span class="cstat-no" title="statement not covered" >    offerDto.updatedAt=offer.updatedAt;</span>
-<span class="cstat-no" title="statement not covered" >    offerDto.geographicalArea=offer.geographicalArea;</span>
-<span class="cstat-no" title="statement not covered" >    offerDto.idPreparatorSession=offer.preparatorSession.idSession;</span>
-<span class="cstat-no" title="statement not covered" >    return offerDto;</span>
+  static toDto(offer: Offer): OfferDto {
+    const offerDto: OfferDto = new OfferDto();
+    offerDto.idOffer=offer.idOffer;
+    offerDto.title=offer.title;
+    offerDto.price=offer.price;
+    offerDto.preparation_time=offer.preparation_time;
+    offerDto.isAvailable=offer.isDeliverable;
+    offerDto.isAvailable=offer.isAvailable;
+    offerDto.createdAt=offer.createdAt;
+    offerDto.updatedAt=offer.updatedAt;
+    offerDto.geographicalArea=offer.geographicalArea;
+    offerDto.idPreparatorSession=offer.preparatorSession.idSession;
+    return offerDto;
   }
 }
 &nbsp;</pre></td></tr></table></pre>
@@ -184,7 +184,7 @@ export class OfferDto {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-02-07T17:56:49.305Z
+                at 2024-02-09T21:11:32.064Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

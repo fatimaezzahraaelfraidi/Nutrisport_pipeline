@@ -146,7 +146,7 @@ const PostOffer = ({navigation}: {navigation: any}) => {
 
                 const responseData = await saveOffre(data);
                 // const socket1 = io('http://192.168.43.78:3100');
-                const socket1 = io(`${config.API_BASE_URL}:${config.PORT1}`);
+                const socket1 = io(`${config.API_BASE_URL}:${config.PORT}`);
 
 
                 socket1.emit('newOffer', responseData);

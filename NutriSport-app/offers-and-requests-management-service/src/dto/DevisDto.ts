@@ -1,6 +1,5 @@
 import { Double } from "typeorm";
 import { Devis } from "../entity/Devis";
-import { SprotifSession } from "../entity/SportifSession";
 
 
 export class DevisDto {
@@ -17,7 +16,6 @@ export class DevisDto {
     devisDto.proposed_price = devis.proposed_price;
     devisDto.idPreparator = devis.preparatorSession.idPreparator;
     devisDto.title = devis.demand.title;
-    // devisDto.idSportif = devis.demand.sportifSession.idSportif;
     return devisDto;
   }
 }

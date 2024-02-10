@@ -1,5 +1,5 @@
 // entities/Session.ts
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, Geometry, OneToOne, ManyToOne, PrimaryColumn } from 'typeorm';
+import { Entity, Column, OneToMany, Geometry,  PrimaryColumn } from 'typeorm';
 import { Offer } from './Offer';
 import { Devis } from './Devis';
 

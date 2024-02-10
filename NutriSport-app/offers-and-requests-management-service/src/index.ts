@@ -5,9 +5,7 @@ import { AppDataSource } from "./data-source"
 import { Routes } from "./routes"
 import { port } from "./config"
 import *  as morgan from "morgan"
-import { Server, Socket } from "socket.io";
-import { SprotifSession } from "./entity/SportifSession"
-import { PreparatorSession } from "./entity/PreparatorSession"
+import { Server } from "socket.io";
 import { startKafkaConsumer } from "../src/config/KafkaMiddleware";
 import eurekaHelper = require('./eureka-helper')
 import { createServer } from "http"

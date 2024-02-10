@@ -10,6 +10,7 @@ import { Geometry } from 'typeorm';
 
 
 
+
 let sportifSessionRepository = AppDataSource.getRepository(SprotifSession);
 let demandRepository = AppDataSource.getRepository(Demand);
 let preparatorSessionRepository = AppDataSource.getRepository(PreparatorSession);
@@ -340,12 +341,19 @@ it('should return nearby demands', async () => {
     const demandRepBuilder = demandRepository.createQueryBuilder = jest.fn().mockReturnValue({
         innerJoinAndSelect: jest.fn().mockReturnThis(), // Ensure `where` can be chained
         where: jest.fn().mockReturnThis(),
+        andWhere:jest.fn().mockReturnThis(),
         setParameter: jest.fn().mockReturnThis(),
         getMany: jest.fn().mockResolvedValue([]),
       });
-      mockRequest.params
+       // Create a mock Request object
+    mockRequest = {
+        params: {
+            preparatorIdSession: '1',
+            diameter: '3000',
+        },
+    } as unknown as MockProxy<Request>; 
     
-    const result = await controller.getNearbyDemands(mockRequest, response, next);
+    const result = await controller.getNearbyDemands(mockRequest, mockResponse, next);
 
     // Assertions
     expect(sSessionRep).toHaveBeenCalled();
@@ -353,38 +361,51 @@ it('should return nearby demands', async () => {
     expect(result).toEqual([]);
     expect(next).not.toHaveBeenCalled();
   });
-it('should throw an error when currentPosition format is invalid', async () => {
+  it('should throw an error when currentPosition format is invalid', async () => {
     // Mock request and response objects
-    const request = {
+    const mockRequest = {
         params: {
             preparatorIdSession: '1',
             diameter: '3000',
-        },
-    };
-    
-    
-    const response = {};
-    const next = jest.fn();
-
-    // Mock preparator session
-    const preparatorSession = {
-      "currentPosition": {
-        type: 'InvalidType',
-        coordinates: [1.0, 2.0],
-      },
-    };
-
-    // Mock preparator session repository
-    const preparatorSessionRepository = {
-      findOne: jest.fn().mockResolvedValue(preparatorSession),
-    };
-
-   let  result = await controller.getNearbyDemands(request, response, next);
+        }
+    } as unknown as Request;
  
-        await expect(result).rejects.toThrow('Invalid currentPosition format');
-        expect(next).toHaveBeenCalledWith(expect.any(Error));
-  
+    const mockNext = jest.fn();
+
+    // Mock invalid currentPosition
+    const invalidCurrentPosition:Geometry = {
+        type: "MultiLineString", // This format is invalid for a currentPosition
+        coordinates: []
+    };
+
+    const preparatorSession :PreparatorSession= {
+        idSession: 0,
+        idPreparator: 0,
+        nom: '',
+        prenom: '',
+        currentPosition: invalidCurrentPosition, // Assign invalid currentPosition
+        isActive: false,
+        preparatorRank: 0,
+        fcmToken: '',
+        offers: [],
+        devis: []
+    };
+    preparatorSession.currentPosition=invalidCurrentPosition;
+    // Mock preparator session repository
+     preparatorSessionRepository.findOne=jest.fn().mockResolvedValue(preparatorSession);
+    
+   // Act and assert
+   let error: Error;
+    try {
+        await controller.getNearbyDemands(mockRequest, mockResponse, mockNext);
+    } catch (e) {
+        error = e;
+    }
+
+    expect(error.message).toBe('Invalid currentPosition format');
+    // Act and assert
+   
+});
 
 
-  });
   });

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testExecutions version="1">
+  <file path="C:\Users\dell\Desktop\Nutrisport_pipeline\NutriSport-app\orders-management-service\tests\PreparatorSessionDto.test.ts">
+    <testCase name="PreparatorSessionDto should convert PreparatorSession to PreparatorSessionDto successfully" duration="17"/>
+  </file>
+  <file path="C:\Users\dell\Desktop\Nutrisport_pipeline\NutriSport-app\orders-management-service\tests\Offer.test.ts">
+    <testCase name="Offer Entity should create an Offer instance successfully" duration="10"/>
+  </file>
+  <file path="C:\Users\dell\Desktop\Nutrisport_pipeline\NutriSport-app\orders-management-service\tests\Devis.test.ts">
+    <testCase name="Devis Entity should create a Devis instance successfully" duration="9"/>
+    <testCase name="Devis Entity should establish the ManyToOne relationship with PreparatorSession" duration="1"/>
+  </file>
+  <file path="C:\Users\dell\Desktop\Nutrisport_pipeline\NutriSport-app\orders-management-service\tests\SportifSessionEntity.test.ts">
+    <testCase name="SportifSession Entity should establish a one-to-many relationship between SportifSession and Order" duration="9"/>
+    <testCase name="SportifSession Entity should create a SportifSession instance successfully" duration="1"/>
+  </file>
+  <file path="C:\Users\dell\Desktop\Nutrisport_pipeline\NutriSport-app\orders-management-service\tests\Orders.test.ts">
+    <testCase name="placeOrderBasedOnOffers should place an order based on offers successfully" duration="105"/>
+    <testCase name="placeOrderBasedOnOffers should throw an error when sportif session is not found" duration="19"/>
+    <testCase name="placeOrderBasedOnOffers should throw an error when offer is not found" duration="2"/>
+    <testCase name="placeOrderBasedOnDevis should place an order based on devis successfully" duration="3"/>
+    <testCase name="placeOrderBasedOnDevis should throw an error when sportif session is not found" duration="2"/>
+    <testCase name="placeOrderBasedOnDevis should throw an error when devis is not found" duration="2"/>
+    <testCase name="getOrdersBySportifId should get  orders based on Sportif Id" duration="2"/>
+    <testCase name="getOrdersBySportifId should throw an error when sportif session is not found" duration="1"/>
+    <testCase name="setOrderStatus should change the order status to preparation" duration="5"/>
+    <testCase name="setOrderStatus should change the order status to delivery" duration="7"/>
+    <testCase name="setOrderStatus should change the order status to delivered" duration="4"/>
+    <testCase name="setOrderStatus should change the order status to closed" duration="3"/>
+    <testCase name="setOrderStatus should throw an error for an invalid status" duration="1"/>
+    <testCase name="setOrderStatus should throw an errorOrder not found" duration="2"/>
+    <testCase name="getOrderStatus should get the status of the order" duration="3"/>
+    <testCase name="getOrderStatus should throw an error when order is not found" duration="2"/>
+    <testCase name="getOrderById should throw an error when order is not found" duration="2"/>
+    <testCase name="getOrderById should get the order" duration="1"/>
+    <testCase name="setRankPreparator should correctly set the rank based on devis of a preparator and send a Kafka message" duration="3"/>
+    <testCase name="setRankPreparator should correctly set the rank based on offer of a preparator and send a Kafka message" duration="1"/>
+    <testCase name="get Count Orders Of Nearby Offers should get count order of nearby offers based on sportif session" duration="55"/>
+    <testCase name="get Count Orders Of Nearby Offers should throw an error if sportif session is not found" duration="4"/>
+    <testCase name="get Count Orders Of Nearby Offers should throw an error if currentPosition format is invalid" duration="6"/>
+    <testCase name="get Preparator Orders should get  Preparator Orders" duration="1"/>
+    <testCase name="get Preparator Orders should throw an error if preparator session is not found" duration="1"/>
+    <testCase name="set Is Paid should set an order isPaid" duration="7"/>
+    <testCase name="set Is Paid should throw an error if preparator session is not found" duration="6"/>
+    <testCase name="get Order Based On Devis Id should get Order Based On Devis Id" duration="1"/>
+    <testCase name="get Order Based On Devis Id should throw an error if Sportif session is not found" duration="1"/>
+  </file>
+</testExecutions>

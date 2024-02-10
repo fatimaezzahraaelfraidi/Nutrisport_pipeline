@@ -36,7 +36,7 @@ class LocationServiceTest {
         Point p1 = geometryFactory.createPoint(c1);
         Location locationToSave = new Location();
         locationToSave.setLocationGeometry(p1);
-   // When
+        // When
         locationService.save(locationToSave);
 
         // Then

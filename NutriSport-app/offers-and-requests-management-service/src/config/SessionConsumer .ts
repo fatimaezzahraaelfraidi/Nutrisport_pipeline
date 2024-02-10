@@ -1,4 +1,4 @@
-import { Kafka, Consumer, logLevel } from 'kafkajs';
+import { Kafka, logLevel } from 'kafkajs';
 import { AppDataSource } from '../data-source';
 import { PreparatorSession } from '../entity/PreparatorSession';
 import { SprotifSession } from '../entity/SportifSession';

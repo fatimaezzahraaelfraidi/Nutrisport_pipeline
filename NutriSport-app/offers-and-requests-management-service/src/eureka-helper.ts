@@ -41,6 +41,7 @@ client.start( (error: any) => {
 
 function exitHandler(options: { cleanup: any; exit: any; }, exitCode: number) {
     if (options.cleanup) {
+      console.log("test");
     }
     if (exitCode || exitCode === 0) console.log(exitCode);
     if (options.exit) {

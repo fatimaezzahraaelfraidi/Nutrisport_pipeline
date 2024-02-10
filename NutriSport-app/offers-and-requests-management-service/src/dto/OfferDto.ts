@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, Geometry, OneToOne, JoinColumn, PrimaryColumn } from 'typeorm';
+import {  Geometry } from 'typeorm';
 import { Offer } from '../entity/Offer';
 
 

@@ -68,10 +68,7 @@ services:
       - zookeeper
 
   discovery-service:
-    build:
-      context: .\discovery-service
-      dockerfile: Dockerfile
-    image: discovery-service
+    image: elfraidi/discovery-service-nutrisport
     container_name: discovery-service
     ports:
       - "8761:8761"
@@ -79,11 +76,8 @@ services:
       - nutriSport-network
 
   user-management-service:
-    build:
-      context: .\user-management-service
-      dockerfile: Dockerfile
-    image: user-management-service
-    container_name: user-management-services
+    image: elfraidi/user-management-service-nutrisport
+    container_name: user-management-service
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgisUs:5432/nutriSportDb_userManagementService
       SPRING_DATASOURCE_USERNAME: nutriSport
@@ -92,15 +86,14 @@ services:
       IP_ADDRESS: 192.168.0.156
     networks:
       - nutriSport-network
+    depends_on:
+      - kafka
+      - discovery-service
+      - postgisUs
   
   offers-and-requests-management-service:
-    build:
-      context: .\offers-and-requests-management-service
-      dockerfile: Dockerfile
-    image: offers-and-requests-management-service
+    image: elfraidi/offers-and-requests-management-service-nutrisport
     container_name: offers-and-requests-management-service
-    depends_on:
-     - postgis
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgis:5432/nutriSportDb
       SPRING_DATASOURCE_USERNAME: nutriSport
@@ -111,15 +104,14 @@ services:
       PORT: 3100
     networks:
       - nutriSport-network
+    depends_on:
+      - kafka
+      - discovery-service
+      - postgis
 
   orders-management-service:
-    build:
-      context: .\orders-management-service
-      dockerfile: Dockerfile
-    image: orders-management-service
+    image: elfraidi/orders-management-service-nutrisport
     container_name: orders-management-service
-    depends_on:
-     - postgisOs
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgisOs:5432/nutriSportDb_ordersService
       SPRING_DATASOURCE_USERNAME: nutriSport
@@ -130,24 +122,24 @@ services:
       IP_ADDRESS: 192.168.0.156
     networks:
       - nutriSport-network
+    depends_on:
+      - kafka
+      - discovery-service
+      - postgisOs
 
   payment-service:
-    build:
-      context: .\payment-service
-      dockerfile: Dockerfile
-    image: payment-service
+    image: elfraidi/payment-service-nutrisport
     container_name: payment-service
     environment:
       PORT: 3400
       IP_ADDRESS: 192.168.0.156
     networks:
       - nutriSport-network
+    depends_on:
+      - discovery-service
 
   api-gateway-service:
-    build:
-      context: .\api-gateway-service
-      dockerfile: Dockerfile
-    image: api-gateway-service
+    image: elfraidi/api-gateway-service-nutrisport
     container_name: api-gateway-service
     environment:
       IP_ADDRESS: 192.168.0.156
@@ -157,6 +149,12 @@ services:
       - nutriSport-network
     links:
       - discovery-service
+    depends_on:
+      - discovery-service
+      - user-management-service
+      - offers-and-requests-management-service
+      - orders-management-service
+      - payment-service
 
 volumes:
   nutriSport-db_postgis_data:

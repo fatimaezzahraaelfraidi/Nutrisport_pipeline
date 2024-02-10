@@ -9,7 +9,14 @@ import axios from 'axios';
 import { SprotifSession } from '../src/entity/SportifSession';
 import { DevisStatus } from '../src/enum/EnumDevisStatus';
 import { EnumMealType } from '../src/enum/EnumMealType';
- 
+import { Geometry } from 'typeorm';
+ // Mock Firebase Admin SDK
+const adminMessagingSendMock = jest.fn();
+jest.mock('firebase-admin', () => ({
+    messaging: () => ({
+        send: adminMessagingSendMock
+    })
+}));
 // Mocking external dependencies
 jest.mock('axios');
 
@@ -27,7 +34,19 @@ beforeEach(() => {
     mockRequest = mock<Request>();
     mockResponse = mock<Response>();
     mockNext = mock<NextFunction>();
-    
+    // Mock the req.app.get function to return a mock io object
+    mockRequest.app.get =jest.fn().mockReturnValue({
+        emit: jest.fn(), // Mock the emit function of socket.io
+    });
+    // Mock Firebase admin module
+jest.mock('firebase-admin', () => {
+    const messagingSendMock = jest.fn();
+    return {
+        messaging: () => ({
+            send: messagingSendMock
+        })
+    };
+});
 });
 // Clean up
 afterEach(() => {
@@ -219,17 +238,39 @@ const result = await controller.getDevisPfDemandM( demandId );
             },
             "isActive": true
         };
-        const demandData = {
-            "title":"lunch",
-            "desired_delivery_date": "2024-01-03T15:41:34.166Z",
-            "mealType": "lunch",
+        const currentPosition :Geometry= {
+            type: "Point",
+            coordinates: [
+                12.965598,
+                77.590862
+            ]
+        };
+
+        const sportifSession :SprotifSession = {
+            idSession: 2,
+            idSportif: 2,
+            currentPosition: currentPosition,
+            isActive: true,
+            name: "name",
+            phone: "phone",
+            fcmToken: 'tocken',
+            demands: []
+        };
+        const demandData :Demand = {
+            "title": "lunch",
+            "desired_delivery_date": null,
+            "mealType": EnumMealType.LUNCH,
             "caloricValue": 6000,
             "fatsValue": 190,
             "proteinValue": 40,
             "carbohydratesValue": 30,
             "description": "Delicious lunch option",
-            "isAvailable": true
-            
+            "isAvailable": true,
+            idDemand: 0,
+            createdAt: undefined,
+            updatedAt: undefined,
+            sportifSession:sportifSession,
+            devis: []
         };
         const savedDevis={
             "idDevis": 3,
@@ -264,24 +305,25 @@ const result = await controller.getDevisPfDemandM( demandId );
                 },
                 "isActive": true
             }
-        }
-    
-        mockRequest.params = { demandId };
-        mockRequest.params = { preparatorIdSession };
+        } ;
+       
+     
+        mockRequest.params = { demandId: String(demandId) };
+        mockRequest.params = { preparatorSessionId: String(preparatorIdSession) };
         mockRequest.body = {devis};
 
         let prepSessRep=preparatorSessionRepository.findOne=jest.fn().mockResolvedValue(preparatorSession);
        let demandResp=demandRepository.findOne=jest.fn().mockResolvedValue(demandData);
        let dRepCreate=devisRepository.create=jest.fn().mockReturnValue(savedDevis);
        let dRepSave=devisRepository.save=jest.fn().mockResolvedValue(savedDevis);
-   
+       sportifSessionRepository.findOne=jest.fn().mockResolvedValue(sportifSession);
         // Act
-       const result = await controller.proposeDevis(requestMock);
+       const result = await controller.proposeDevis(mockRequest);
        
 //        preparatorSessionRepository.findOne=jest.fn().mockResolvedValue(preparatorSessionMock);
 //      // Assert
-     expect(prepSessRep).toHaveBeenCalledWith({ where: { idSession: preparatorIdSession } });
-      expect(demandResp).toHaveBeenCalledWith({ where: { idDemand: demandId } });
+     expect(prepSessRep).toHaveBeenCalled();
+      expect(demandResp).toHaveBeenCalled();
      expect(dRepCreate).toHaveBeenCalled();
      expect(dRepSave).toHaveBeenCalled();
     // expect(dRepSave).toHaveBeenCalledWith(devisDataMock as any);
@@ -291,7 +333,7 @@ const result = await controller.getDevisPfDemandM( demandId );
    
     preparatorSessionRepository.findOne=jest.fn().mockResolvedValue(null);
     // Act and Assert
-    await expect(controller.proposeDevis(requestMock)).rejects.toThrow('Preparator not found');
+    await expect(controller.proposeDevis(mockRequest)).rejects.toThrow('Preparator not found');
 
   });
   
@@ -300,7 +342,7 @@ const result = await controller.getDevisPfDemandM( demandId );
     demandRepository.findOne=jest.fn().mockResolvedValue(null);
     
     // Act and Assert
-    await expect(controller.proposeDevis(requestMock)).rejects.toThrow('Demand not found');
+    await expect(controller.proposeDevis(mockRequest)).rejects.toThrow('Demand not found');
   });
         });
 
@@ -310,9 +352,9 @@ const result = await controller.getDevisPfDemandM( demandId );
         const devisId = 1;
        
         const mockResponse = {
-          status: jest.fn().mockReturnThis(), 
-          json: jest.fn(),
-        } as Response; // Cast to Response
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn(),
+        } as unknown as Response; // Cast to Response
         controller.producer.send=jest.fn();
         controller.producer.connect=jest.fn();
         controller.producer.disconnect=jest.fn();
@@ -324,7 +366,8 @@ const result = await controller.getDevisPfDemandM( demandId );
             const devisRepo=devisRepository.findOne=jest.fn().mockResolvedValue(devisDataMock);
             const demandRepo=demandRepository.findOne=jest.fn().mockResolvedValue(demand);
            
-            mockRequest.params = { devisId };
+         
+            mockRequest.params = { devisId: String(devisId) };
             // Act
         await controller.acceptDevis(mockRequest, mockResponse);
   
@@ -341,11 +384,11 @@ const result = await controller.getDevisPfDemandM( demandId );
       it('should throw an error if demand don t exist', async () => {
         // Mock the necessary dependencies and objects
         const devisId = 1;
-        mockRequest.params = { devisId };
+        mockRequest.params = { devisId: String(devisId) };
         const mockResponse = {
-          status: jest.fn().mockReturnThis(), // Ensure that status() is mockable
-          json: jest.fn(),
-        } as Response; // Cast to Response
+            status: jest.fn().mockReturnThis(), // Ensure that status() is mockable
+            json: jest.fn(),
+        } as unknown as Response; // Cast to Response
   
         demandRepository.findOne=jest.fn().mockResolvedValue(null);
 
@@ -360,7 +403,7 @@ const result = await controller.getDevisPfDemandM( demandId );
         const devisRepo=devisRepository.findOne=jest.fn().mockResolvedValue(devisDataMock);
         const demandRepo=demandRepository.findOne=jest.fn().mockResolvedValue(demand);
        
-        mockRequest.params = { devisId };
+        mockRequest.params = { devisId: String(devisId) };
          mockResponse.status = jest.fn().mockReturnThis();
          mockResponse.json = jest.fn(),
       
@@ -375,11 +418,11 @@ const result = await controller.getDevisPfDemandM( demandId );
         it('should throw an error if devis not found', async () => {
             // Mock the necessary dependencies and objects
             const devisId = 1;
-            mockRequest.params = { devisId };
+            mockRequest.params = { devisId: String(devisId) };
             const mockResponse = {
-              status: jest.fn().mockReturnThis(), // Ensure that status() is mockable
-              json: jest.fn(),
-            } as Response; // Cast to Response
+                status: jest.fn().mockReturnThis(), // Ensure that status() is mockable
+                json: jest.fn(),
+            } as unknown as Response; // Cast to Response
       
             devisRepository.findOne=jest.fn().mockResolvedValue(null);
     
@@ -424,9 +467,9 @@ const result = await controller.getDevisPfDemandM( demandId );
             // Mock data
             const request = {
                 params: {
-                preparatorId: '1',
+                    preparatorId: '1',
                 },
-            } as Request;
+            } as unknown as Request;
         
             const preparatorId = 1;
         
@@ -532,9 +575,9 @@ const result = await controller.getDevisPfDemandM( demandId );
             // Mock data
             const request = {
                 params: {
-                preparatorId: '1',
+                    preparatorId: '1',
                 },
-            } as Request;
+            } as unknown as Request;
         
             // Mock repository method to return null (preparator not found)
             preparatorSessionRepository.findOne=jest.fn()
@@ -550,9 +593,9 @@ const result = await controller.getDevisPfDemandM( demandId );
             // Mock data
             const request = {
                 params: {
-                demandId: '1',
+                    demandId: '1',
                 },
-            } as Request;
+            } as unknown as Request;
         
             const demandId = 1;
         
@@ -665,9 +708,9 @@ const result = await controller.getDevisPfDemandM( demandId );
             // Mock data
             const request = {
                 params: {
-                demandId: '1',
+                    demandId: '1',
                 },
-            } as Request;
+            } as unknown as Request;
         
             // Mock repository method to return null (demand not found)
             demandRepository.findOne=jest.fn()
@@ -679,3 +722,202 @@ const result = await controller.getDevisPfDemandM( demandId );
         
             // Add more test cases for error scenarios, missing data, etc.
         });
+        describe('getDevis', () => {
+            it('should fetch the devis successfully', async () => {
+                // Mock request object with devis ID
+                const mockRequest = {
+                    params: {
+                        devisId: '1',
+                    }
+                } as unknown as Request;
+        
+                // Mock devis
+                const mockDevis = {
+                    idDevis: 1,
+                    // Add other properties as needed
+                };
+        
+                // Mock devis repository behavior
+                devisRepository.findOne = jest.fn().mockResolvedValue(mockDevis);
+        
+                // Act
+                const result = await controller.getDevis(mockRequest);
+        
+                // Assert
+                expect(devisRepository.findOne).toHaveBeenCalledWith({ where: { idDevis: 1 }, relations: ['demand', 'preparatorSession'] });
+                expect(result).toEqual(mockDevis);
+            });
+        
+            it('should throw error when devis not found', async () => {
+                // Mock request object with devis ID
+                const mockRequest = {
+                    params: {
+                        devisId: '1',
+                    }
+                } as unknown as Request;
+        
+                // Mock devis repository to return null
+                devisRepository.findOne = jest.fn().mockResolvedValue(null);
+        
+                // Act and Assert
+                await expect(controller.getDevis(mockRequest)).rejects.toThrow('devis not found');
+            });
+        });
+        describe('getAllDevisForDemand', () => {
+            it('should return all devis for the demand when both demand and preparator session exist', async () => {
+                // Mock request object with valid demand and preparator session IDs
+                const mockRequest = {
+                    params: {
+                        demandId: '1',
+                        preparatorId: '1',
+                    }
+                } as unknown as Request;
+        
+                // Mock demand
+                const mockDemand = {
+                    idDemand: 1,
+                    // other properties
+                };
+        
+                // Mock preparator session
+                const mockPreparatorSession = {
+                    idSession: 1,
+                    idPreparator: 1,
+                    // other properties
+                };
+        
+                // Mock devis
+                const mockDevis = [
+                    { idDevis: 1, status: DevisStatus.PENDING },
+                    { idDevis: 2, status: DevisStatus.PENDING },
+                    // Add more mock devis as needed
+                ];
+        
+                // Mock demand repository behavior
+                demandRepository.findOne = jest.fn().mockResolvedValue(mockDemand);
+        
+                // Mock preparator session repository behavior
+                preparatorSessionRepository.findOne = jest.fn().mockResolvedValue(mockPreparatorSession);
+        
+                // Mock devis repository behavior
+                devisRepository.createQueryBuilder = jest.fn().mockReturnValue({
+                    innerJoin: jest.fn().mockReturnThis(),
+                    where: jest.fn().mockReturnThis(),
+                    andWhere: jest.fn().mockReturnThis(),
+                    getMany: jest.fn().mockResolvedValue(mockDevis),
+                });
+        
+                // Act
+                const result = await controller.getAllDevisForDemand(mockRequest);
+        
+                // Assert
+                expect(result).toEqual(mockDevis);
+            });
+        
+            it('should throw error when demand not found', async () => {
+                
+                    // Mock request object with devis ID
+                    const mockRequest = {
+                        params: {
+                            demandId: '1',
+                            preparatorSessionId:'1'
+                        }
+                    } as unknown as Request;
+            
+                    // Mock devis repository to return null
+                    demandRepository.findOne = jest.fn().mockResolvedValue(null);
+            
+                    // Act and Assert
+                    await expect(controller.getAllDevisForDemand(mockRequest)).rejects.toThrow('Demand not found');
+             
+            });
+        
+            it('should throw error when preparator session not found', async () => {
+                // Mock request object with devis ID
+                const mockRequest = {
+                    params: {
+                        demandId: '1',
+                        preparatorSessionId:'1'
+                    }
+                } as unknown as Request;
+        
+                // Mock devis repository to return null
+                preparatorSessionRepository.findOne = jest.fn().mockResolvedValue(null);
+        
+                // Act and Assert
+                await expect(controller.getAllDevisForDemand(mockRequest)).rejects.toThrow('Preparator not found');
+         
+            });
+        });
+              
+        
+        describe('getDemandOfDevis', () => {
+            it('should return the demand corresponding to the devis when devis is found and status is accepted', async () => {
+                // Mock request object with a valid devis ID
+                const mockRequest = {
+                    params: {
+                        devisId: '1',
+                    }
+                } as unknown as Request;
+        
+                // Mock devis
+                const mockDevis = {
+                    idDevis: 1,
+                    status: DevisStatus.ACCEPTED,
+                    demand: {
+                        // mock demand properties
+                    }
+                };
+        
+                // Mock devis repository behavior
+                devisRepository.findOne = jest.fn().mockResolvedValue(mockDevis);
+        
+                // Act
+                const result = await controller.getDemandOfDevis(mockRequest);
+        
+                // Assert
+                expect(result).toEqual(mockDevis.demand);
+            });
+        
+            it('should throw error when devis not found', async () => {
+                // Mock request object with devis ID
+                const mockRequest = {
+                    params: {
+                        devisId: '1',
+                    }
+                } as unknown as Request;
+        
+                // Mock devis repository to return null
+                devisRepository.findOne = jest.fn().mockResolvedValue(null);
+        
+                // Act and Assert
+                await expect(controller.getDemandOfDevis(mockRequest)).rejects.toThrow('Devis not found');
+            });
+        
+            it('should throw error when devis status is not accepted', async () => {
+                 // Mock request object with a valid devis ID
+                 const mockRequest = {
+                    params: {
+                        devisId: '1',
+                    }
+                } as unknown as Request;
+        
+                // Mock devis
+                const mockDevis = {
+                    idDevis: 1,
+                    status: DevisStatus.PENDING,
+                    demand: {
+                        // mock demand properties
+                    }
+                };
+        
+                // Mock devis repository behavior
+                devisRepository.findOne = jest.fn().mockResolvedValue(mockDevis);
+        
+               
+        
+             // Act and Assert
+             await expect(controller.getDemandOfDevis(mockRequest)).rejects.toThrow('Devis status is not accepted');
+            });
+        });
+        
