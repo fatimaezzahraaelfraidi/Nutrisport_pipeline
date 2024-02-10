@@ -33,7 +33,7 @@ const Chef = ({navigation}: {navigation: any})  => {
         //   coordinates: JSON.stringify(geographicalArea.coordinates),
         // },
       };
-      console.log("alooo");
+      console.log("alooooo");
       // Make the API call using the service
       const responseData = await saveOffre(data);
       
